@@ -1,14 +1,14 @@
+const dotenv = require('dotenv')
+dotenv.config()
 const express = require('express');
 const app = express();
-const dotenv = require('dotenv')
-const mongoose = require('mongoose');
-dotenv.config()
+const db = require('./db.config')
 const PORT = process.env.PORT || 5000;
-const uri = `mongodb+srv://${process.env.DBUSER}:${process.env.PASS}@cluster0.krk0gyq.mongodb.net/?retryWrites=true&w=majority`
+
 
 app.use(express.json()); // middleware...
 app.use(express.urlencoded({extended:true}))
-
+db.dbConfig();
 
 app.get('/',(req,res)=>{
     res.json({

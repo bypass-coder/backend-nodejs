@@ -34,7 +34,8 @@ router.get("/", (req, res, next) => {
 });
 
 router.get("/:id", (req, res, next) => {
-  res.json("get user information");
+    const id = req.params.id;
+    User.findById(id).then(data => res.json({status:200,data: data})).catch(err => res.json({status:500,message: err.message || "some error..."}))
 });
 
 router.delete("/:id", (req, res, next) => {

@@ -27,7 +27,10 @@ router.post("/", (req, res) => {
 });
 
 router.get("/", (req, res, next) => {
-  res.json("get all users information");
+  User.find().then(data => res.json({
+    status:200,
+    data: data
+  })).catch(err => res.json({status:500,message: err.message || "some error..."}))
 });
 
 router.get("/:id", (req, res, next) => {

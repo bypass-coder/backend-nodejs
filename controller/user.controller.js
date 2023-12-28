@@ -39,11 +39,13 @@ router.get("/:id", (req, res, next) => {
 });
 
 router.delete("/:id", (req, res, next) => {
-  res.json("delete user information");
+    const id = req.params.id;
+    User.findByIdAndDelete(id).then(data => res.json({status:200,data:'User deleted'})).catch(err => res.json({status:500,message: err.message || "some error..."}))
 });
 
 router.put("/:id", (req, res, next) => {
-  res.json("update user information");
+  const id = req.params.id;
+  User.findByIdAndUpdate(id,req.body).then(data => res.json({status:202,data:`User is updated...`})).catch(err => res.json({status:500,message: err.message || "some error..."}))
 });
 
 module.exports = router;

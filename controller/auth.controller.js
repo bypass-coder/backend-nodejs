@@ -3,6 +3,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken")
 const router = express.Router();
 const Auth = require("../models/auth.model");
+const {verifyToken} = require('../auth.middleware') 
 
 router.post("/register", async (req, res) => {
   const { firstName, lastName, email, password } = req.body;
@@ -50,21 +51,15 @@ router.post("/login", async (req, res) => {
   }catch(err){
     res.json({status:500, message: 'someting went wrong...'});
   }
-  
-    // .then((data) => {
-    //   res.json({
-    //     status: 201,
-    //     message: `user registered successfully...`,
-    //   });
-    // })
-    // .catch((err) => {
-    //   res.json({
-    //     status: 500,
-    //     message: err.message || "some err with user model object.",
-    //   });
-    // });
 });
 
+router.post('/user-profile',verifyToken,(req,res,next)=>{
+  const email = req.user['data'][2];
+
+  res.json({status:200, message:"it's a secured url",data:req.user})
+
+
+})
 
 router.get("/", (req, res, next) => {
   User.find().then(data => res.json({

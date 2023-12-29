@@ -1,14 +1,16 @@
 const express = require("express");
+const bcrypt = require("bcryptjs");
 const router = express.Router();
 const Auth = require("../models/auth.model");
 
-router.post("/register", (req, res) => {
+router.post("/register", async (req, res) => {
   const { firstName, lastName, email, password } = req.body;
+  const hashpassword = await bcrypt.hash(password,10)
   const auth = new Auth({
     firstName: firstName,
     lastName: lastName,
     email: email,
-    password: password,
+    password: hashpassword,
   });
   auth
     .save(auth)
@@ -32,8 +34,13 @@ router.post("/login", async (req, res) => {
   try{
     const user = await Auth.findOne({email});
   
-    if(user && user.password === password) {
-      res.json({status: 200, message: "login successful"})
+    if(user) {
+      const passwordMatch = await bcrypt.compare(password, user.password)
+      if (passwordMatch){
+        res.json({status: 200, message: "login successful"})
+      }else{
+        res.json({status:401, message:'invalid credentials'})
+      }
     }else{
       res.json({status:401, message:'invalid credentials'})
     }

@@ -8,6 +8,7 @@ const PORT = process.env.PORT || 5000;
 // controller import 
 const userRouter = require('./controller/user.controller')
 const blogRouter = require('./controller/blog.controller')
+const authRouter = require('./controller/auth.controller')
 
 app.use(bodyParser.json());
 // app.use(express.json()); // middleware...
@@ -24,6 +25,7 @@ app.use('/api/v1/users',userRouter)
 // app.use('/api/v1/orders')
 // app.use('/api/v1/employees')
 app.use('/api/v1/blogs',blogRouter)
+app.use('/api/v1/auth',authRouter)
 // app.use('/api/v1/post')
 
 app.listen(PORT,()=>{

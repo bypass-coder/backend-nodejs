@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const User = require("../models/user.model");
 
-router.post("/", (req, res) => {
+router.post("/create", (req, res) => {
   const { firstName, lastName, dept, age } = req.body;
   const user = new User({
     firstName: firstName,
@@ -26,21 +26,18 @@ router.post("/", (req, res) => {
     });
 });
 
-router.get("/", (req, res, next) => {
-  User.find().then(data => res.json({
-    status:200,
-    data: data
-  })).catch(err => res.json({status:500,message: err.message || "some error..."}))
+router.get("/get-all-users", (req, res, next) => {
+  User.find().then(data => res.json(data)).catch(err => res.json({status:500,message: err.message || "some error..."}))
 });
 
 router.get("/:id", (req, res, next) => {
     const id = req.params.id;
-    User.findById(id).then(data => res.json({status:200,data: data})).catch(err => res.json({status:500,message: err.message || "some error..."}))
+    User.findById(id).then(data => res.json(data)).catch(err => res.json({status:500,message: err.message || "some error..."}))
 });
 
 router.delete("/:id", (req, res, next) => {
     const id = req.params.id;
-    User.findByIdAndDelete(id).then(data => res.json({status:200,data:'User deleted'})).catch(err => res.json({status:500,message: err.message || "some error..."}))
+    User.findByIdAndDelete(id).then(data => res.json('User deleted')).catch(err => res.json({status:500,message: err.message || "some error..."}))
 });
 
 router.put("/:id", (req, res, next) => {

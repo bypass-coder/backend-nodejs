@@ -55,10 +55,7 @@ router.post("/login", async (req, res) => {
 
 router.post('/user-profile',verifyToken,(req,res,next)=>{
   const email = req.user['data'][2];
-
   res.json({status:200, message:"it's a secured url",data:req.user})
-
-
 })
 
 router.get("/", (req, res, next) => {
